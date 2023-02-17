@@ -2,7 +2,7 @@ import React from "react";
 
 import './header.css';
 
-const Header = () => {
+const Header = ({onServiceChange}) => {
     return (
         <div>
             <h3>
@@ -21,6 +21,9 @@ const Header = () => {
                     <a href="#">Starships</a>
                 </li>
             </ul>
+            <button onClick={onServiceChange}>
+                Change Service
+            </button>
         </div>
     );
 };
