@@ -6,19 +6,17 @@ const Header = ({onServiceChange}) => {
     return (
         <div>
             <h3>
-                <a href="#">
-                    Star DB
-                </a>
+                Star DB                
             </h3>
             <ul>
                 <li>
-                    <a href="#">People</a>
+                    <span>People</span>
                 </li>
                 <li>
-                    <a href="#">Planets</a>
+                    <span>Planets</span>
                 </li>
                 <li>
-                    <a href="#">Starships</a>
+                    <span>Starships</span>
                 </li>
             </ul>
             <button onClick={onServiceChange}>
