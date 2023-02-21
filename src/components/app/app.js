@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "../header";
 import RandomPlanet from "../random-planet";
 import ErrorIndicator from "../error-indicator/error-idicator";
@@ -56,15 +57,19 @@ export default class App extends Component{
         return (
             <ErrorBoundry>
                 <SwapiServiceProvider value={this.state.swapiService}>
-                    <Header onServiceChange={this.onServiceChange}/>
-                    {randomPlanetComponent}
-                    <button onClick={this.toggleRandomPlanet}>
-                        Toggle Random Planet
-                    </button>
-                    <PeoplePage/>
-                    <PlanetsPage/>
-                    <StarshipsPage/>
-                    
+                    <Router>
+                        <Header onServiceChange={this.onServiceChange}/>
+                        {randomPlanetComponent}
+                        <button onClick={this.toggleRandomPlanet}>
+                            Toggle Random Planet
+                        </button>
+                        <Routes>
+                            <Route path="/" element={<h2>Welcome to Star DB</h2>}/>
+                            <Route path="/people" element={<PeoplePage/>}/>
+                            <Route path="/planets" element={<PlanetsPage/>}/>
+                            <Route path="/starships" element={<StarshipsPage/>}/>
+                        </Routes>
+                    </Router>
                 </SwapiServiceProvider>
             </ErrorBoundry>
         );

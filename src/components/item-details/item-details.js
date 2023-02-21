@@ -60,7 +60,7 @@ export default class ItemDetails extends Component {
         const noData = !(item || loading)
         
         if(noData) {
-            return <span>Select a Character</span>
+            return <span>Select an Item</span>
         }
 
         if(this.state.loading) {
