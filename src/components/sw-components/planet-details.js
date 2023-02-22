@@ -1,10 +1,18 @@
 import React from "react";
 import ItemDetails, {Record} from "../item-details";
 import { withSwapiService } from "../hoc-helpers";
+import { useParams } from "react-router-dom";
 
 const PlanetDetails = (props) => {
+    const {id} = useParams();
+    const itemId = id ? id : props.itemId;
+    const planetProps = {
+        itemId,
+        ...props
+    };
+
     return (
-        <ItemDetails {...props}>
+        <ItemDetails {...planetProps}>
                 <Record field="population" label="Population"/>
                 <Record field="diameter" label="Diameter"/>
         </ItemDetails>

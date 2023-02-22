@@ -14,7 +14,7 @@ const withSwapiService = (mapMethodsToProps) => (Wrapped) => {
                         )
                     }
                 }
-        </SwapiServiceConsumer>
+            </SwapiServiceConsumer>
         );
     }
 };

@@ -10,6 +10,7 @@ import DummySwapiService from "../../services/dummy-swapi-service";
 import { PeoplePage, PlanetsPage, StarshipsPage } from "../pages";
 
 import './app.css';
+import { PersonDetails, PlanetDetails, StarshipDetails } from "../sw-components";
 
 export default class App extends Component{
     state = {
@@ -66,8 +67,11 @@ export default class App extends Component{
                         <Routes>
                             <Route path="/" element={<h2>Welcome to Star DB</h2>}/>
                             <Route path="/people" element={<PeoplePage/>}/>
+                            <Route path="/people/:id" element={<PersonDetails/>}/>
                             <Route path="/planets" element={<PlanetsPage/>}/>
+                            <Route path="/planets/:id" element={<PlanetDetails/>}/>
                             <Route path="/starships" element={<StarshipsPage/>}/>
+                            <Route path="/starships/:id" element={<StarshipDetails/>}/>
                         </Routes>
                     </Router>
                 </SwapiServiceProvider>
