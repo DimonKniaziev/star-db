@@ -1,10 +1,13 @@
 import React from "react";
 import PropTypes from 'prop-types';
-
+import { Link, useLocation } from "react-router-dom";
 import './item-list.css';
 
 const ItemList = (props) => {    
     const { data, onItemSelected, children: renderLabel } = props;
+    const location = useLocation();
+    const pathRegEx = /^(\/[A-Za-z0-9]*)/;
+    const path = location.pathname.match(pathRegEx)[1];
 
     const items = data.map((item) => {
         const{id} = item;
@@ -12,7 +15,7 @@ const ItemList = (props) => {
 
         return (
             <li key={id} onClick={() => onItemSelected(id)}>
-                {label}
+                <Link to={`${path}/${id}`}>{label}</Link>
             </li>
         );
     });

@@ -66,12 +66,9 @@ export default class App extends Component{
                         </button>
                         <Routes>
                             <Route path="/" element={<h2>Welcome to Star DB</h2>}/>
-                            <Route path="/people" element={<PeoplePage/>}/>
-                            <Route path="/people/:id" element={<PersonDetails/>}/>
-                            <Route path="/planets" element={<PlanetsPage/>}/>
-                            <Route path="/planets/:id" element={<PlanetDetails/>}/>
-                            <Route path="/starships" element={<StarshipsPage/>}/>
-                            <Route path="/starships/:id" element={<StarshipDetails/>}/>
+                            <Route path="/people/:id?" element={<PeoplePage/>}/>
+                            <Route path="/planets/:id?" element={<PlanetsPage/>}/>
+                            <Route path="/starships/:id?" element={<StarshipsPage/>}/>
                         </Routes>
                     </Router>
                 </SwapiServiceProvider>

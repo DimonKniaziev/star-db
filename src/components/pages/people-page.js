@@ -1,24 +1,19 @@
-import React, {Component} from "react";
+import React from "react";
+import { useLocation } from "react-router-dom";
 import AppRow from "../app-row";
 import { PersonList, PersonDetails } from "../sw-components";
 
-export default class PeoplePage extends Component {
-    state = {
-        selectedItem: null
-    };
+const PeoplePage = () => {
+    const location = useLocation();
+    const idRegExp = /\/([0-9]*)$/;
+    const itemId = location.pathname.match(idRegExp)[1];
 
-    onItemSelected = (selectedItem) => {
-        this.setState({
-            selectedItem
-        });
-    }
-
-    render() {
-        return (
-            <AppRow 
-                left={<PersonList onItemSelected={this.onItemSelected}/>}
-                right={<PersonDetails itemId={this.state.selectedItem}/>}
-            />
-        );
-    }
+    return (
+        <AppRow 
+            left={<PersonList/>}
+            right={<PersonDetails itemId={itemId}/>}
+        />
+    );
 }
+
+export default PeoplePage;

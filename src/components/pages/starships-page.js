@@ -1,24 +1,19 @@
-import React, {Component} from "react";
+import React from "react";
+import { useLocation } from "react-router-dom";
 import AppRow from "../app-row";
 import { StarshipList, StarshipDetails } from "../sw-components";
 
-export default class StarshipsPage extends Component {
-    state = {
-        selectedItem: null
-    };
+const StarshipsPage = () => {
+    const location = useLocation();
+    const idRegExp = /\/([0-9]*)$/;
+    const itemId = location.pathname.match(idRegExp)[1];
 
-    onItemSelected = (selectedItem) => {
-        this.setState({
-            selectedItem
-        });
-    }
-
-    render() {
-        return (
-            <AppRow 
-                left={<StarshipList onItemSelected={this.onItemSelected}/>}
-                right={<StarshipDetails itemId={this.state.selectedItem}/>}
-            />
-        );
-    }
+    return (
+        <AppRow 
+            left={<StarshipList/>}
+            right={<StarshipDetails itemId={itemId}/>}
+        />
+    );
 }
+
+export default StarshipsPage;

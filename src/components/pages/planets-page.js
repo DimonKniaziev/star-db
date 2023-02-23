@@ -1,24 +1,19 @@
-import React, {Component} from "react";
+import React from "react";
+import { useLocation } from "react-router-dom";
 import AppRow from "../app-row";
 import { PlanetList, PlanetDetails } from "../sw-components";
 
-export default class PlanetsPage extends Component {
-    state = {
-        selectedItem: null
-    };
+const PlanetsPage = () => {
+    const location = useLocation();
+    const idRegExp = /\/([0-9]*)$/;
+    const itemId = location.pathname.match(idRegExp)[1];
 
-    onItemSelected = (selectedItem) => {
-        this.setState({
-            selectedItem
-        });
-    }
-
-    render() {
-        return (
-            <AppRow 
-                left={<PlanetList onItemSelected={this.onItemSelected}/>}
-                right={<PlanetDetails itemId={this.state.selectedItem}/>}
-            />
-        );
-    }
+    return (
+        <AppRow 
+            left={<PlanetList/>}
+            right={<PlanetDetails itemId={itemId}/>}
+        />
+    );
 }
+
+export default PlanetsPage;
