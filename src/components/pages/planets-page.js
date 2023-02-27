@@ -1,17 +1,19 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import AppRow from "../app-row";
 import { PlanetList, PlanetDetails } from "../sw-components";
 
 const PlanetsPage = () => {
-    const location = useLocation();
-    const idRegExp = /\/([0-9]*)$/;
-    const itemId = location.pathname.match(idRegExp)[1];
+    const [searchParams, setSearchParams] = useSearchParams();
+
+    function onItemSelected(id) {
+        setSearchParams({id: id});
+    }
 
     return (
         <AppRow 
-            left={<PlanetList/>}
-            right={<PlanetDetails itemId={itemId}/>}
+            left={<PlanetList onItemSelected={onItemSelected}/>}
+            right={<PlanetDetails itemId={searchParams.get('id')}/>}
         />
     );
 }

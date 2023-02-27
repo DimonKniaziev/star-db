@@ -1,17 +1,19 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import AppRow from "../app-row";
 import { StarshipList, StarshipDetails } from "../sw-components";
 
 const StarshipsPage = () => {
-    const location = useLocation();
-    const idRegExp = /\/([0-9]*)$/;
-    const itemId = location.pathname.match(idRegExp)[1];
+    let [searchParams, setSearchParams] = useSearchParams();
+
+    function onItemSelected(id) {
+        setSearchParams({id: id});
+    }
 
     return (
         <AppRow 
-            left={<StarshipList/>}
-            right={<StarshipDetails itemId={itemId}/>}
+            left={<StarshipList onItemSelected={onItemSelected}/>}
+            right={<StarshipDetails itemId={searchParams.get('id')}/>}
         />
     );
 }

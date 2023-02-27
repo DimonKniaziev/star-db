@@ -1,17 +1,19 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import AppRow from "../app-row";
 import { PersonList, PersonDetails } from "../sw-components";
 
 const PeoplePage = () => {
-    const location = useLocation();
-    const idRegExp = /\/([0-9]*)$/;
-    const itemId = location.pathname.match(idRegExp)[1];
+    let [searchParams, setSearchParams] = useSearchParams();
+
+    function onItemSelected(id) {
+        setSearchParams({id: id});
+    }
 
     return (
         <AppRow 
-            left={<PersonList/>}
-            right={<PersonDetails itemId={itemId}/>}
+            left={<PersonList onItemSelected={onItemSelected}/>}
+            right={<PersonDetails itemId={searchParams.get('id')}/>}
         />
     );
 }
