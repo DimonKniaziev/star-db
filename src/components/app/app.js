@@ -10,7 +10,6 @@ import DummySwapiService from "../../services/dummy-swapi-service";
 import { PeoplePage, PlanetsPage, StarshipsPage, SecretPage, LoginPage } from "../pages";
 
 import './app.css';
-import { PersonDetails, PlanetDetails, StarshipDetails } from "../sw-components";
 
 export default class App extends Component{
     state = {
@@ -71,12 +70,13 @@ export default class App extends Component{
                         </button>
                         <Routes>
                             <Route path="/" element={<h2>Welcome to Star DB</h2>}/>
-                            <Route path="/people/:id?" element={<PeoplePage/>}/>
-                            <Route path="/planets/:id?" element={<PlanetsPage/>}/>
-                            <Route path="/starships/:id?" element={<StarshipsPage/>}/>
+                            <Route path="/people" element={<PeoplePage/>}/>
+                            <Route path="/planets" element={<PlanetsPage/>}/>
+                            <Route path="/starships" element={<StarshipsPage/>}/>
                             <Route path="/secret" element={<SecretPage isLoggedIn={this.state.isLoggedIn}/>}/>
                             <Route path="/login" element={<LoginPage isLoggedIn={this.state.isLoggedIn} onLogin={this.onLogin}/>}/>
 
+                            <Route path="*" element={<h2>Page not Found</h2>}/>
                         </Routes>
                     </Router>
                 </SwapiServiceProvider>
