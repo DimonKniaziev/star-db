@@ -1,6 +1,7 @@
-import React, {Component} from "react";
+import React, { useState, useEffect } from "react";
 import ErrorButton from "../error-button/error-button";
 import Spinner from "../spinner";
+import ErrorIndicator from "../error-indicator/error-idicator";
 import "./item-details.scss";
 
 const Record = ({item, field, label}) => {
@@ -15,54 +16,40 @@ export {
     Record
 };
 
-export default class ItemDetails extends Component {
-    state = {
+const ItemDetails = (props) => {
+    const[state, setState] = useState({
         item: null,
         image: null,
         loading: false,
         error: false
-    };
+    });
 
-    componentDidCatch() {
-        this.setState({
-            loading: false,
-            error: true
-        });
-    }
+    useEffect(() => {
+        updateItem();
+    },[props, props.getData, props.getImageUrl]);    
 
-    componentDidMount() {
-       this.updateItem(); 
-    }
-    
-    componentDidUpdate(prevProps) {
-        if(this.props !== prevProps || this.props.getData !== prevProps.getData || this.props.getImageUrl !== prevProps.getImageUrl) {
-            this.updateItem();
-        }
-    }
-
-    onItemLoaded = (item) => {
-        this.setState({
+    const onItemLoaded = (item) => {
+        setState({
             item,
-            image: this.props.getImageUrl(item),
+            image: props.getImageUrl(item),
             loading: false
         });
     };
 
-    updateItem () {
-        const {itemId, getData} = this.props;
+    const updateItem = () => {
+        const {itemId, getData} = props;
         if(!itemId) {
             return;
         }
-        this.setState({
+        setState({
             loading: true
         });
         getData(itemId)
-            .then(this.onItemLoaded);
-        
+            .then(onItemLoaded);        
     }
 
-    render() {
-        const {item, image, loading} = this.state;
+    try {
+        const {item, image, loading} = state;
 
         const noData = !(item || loading)
         
@@ -73,25 +60,17 @@ export default class ItemDetails extends Component {
                 </div>
             );
         }
-
-        if(this.state.loading) {
+    
+        if(state.loading) {
             return (
                 <div className="item-details">
                     <Spinner/>
                 </div>
             );
         }
-
-        if(this.state.error) {
-            return (
-                <div className="item-details">
-                    <Spinner/>
-                </div>
-            )
-        }
-
+    
         const {name} = item;
-
+    
         return(
             <div className="item-details">
                 <div className="image-container">
@@ -101,7 +80,7 @@ export default class ItemDetails extends Component {
                     <h4>{name}</h4>
                     <ul>
                         {
-                            React.Children.map(this.props.children, (child) => {
+                            React.Children.map(props.children, (child) => {
                                 return React.cloneElement(child, {item});
                             })
                         }
@@ -111,4 +90,22 @@ export default class ItemDetails extends Component {
             </div>
         );
     }
+    catch(err) {
+        setState({
+            loading: false,
+            error: true
+        });
+    }
+
+    finally {
+        if(state.error) {
+            return (
+                <div className="item-details">
+                    <ErrorIndicator/>
+                </div>
+            )
+        }
+    }
 };
+
+export default ItemDetails;

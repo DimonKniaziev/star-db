@@ -1,76 +1,10 @@
-import React, {Component} from "react";
+import React, {Component, useState, useEffect} from "react";
 import PropTypes from 'prop-types';
 import SwapiService from '../../services/swapi-service.js';
 import ErrorIndicator from "../error-indicator/error-idicator.js";
 import Spinner from "../spinner/spinner.js";
 
 import './random-planet.scss';
-
-export default class RandomPlanet extends Component {
-    static defaultProps = {
-        updateInterval: 35000
-    };
-
-    static propTypes = {
-        updateInterval: PropTypes.number
-    };
-
-    swapiService = new SwapiService();
-
-    state = {
-        planet: {},
-        loading: true,
-        error: false
-    };
-
-    componentDidMount() {
-        const { updateInterval } = this.props;
-        this.updatePlanet();
-        this.interval = setInterval(this.updatePlanet, updateInterval);
-    }
-
-    componentWillUnmount() {
-        clearInterval(this.interval);
-    }
-
-    onPlanetLoaded = (planet) => {
-        this.setState({
-            planet,
-            loading: false
-        });
-    };
-
-    onError = (err) => {
-        this.setState({
-            loading: false,
-            error: true
-        });
-    };
-
-    updatePlanet = () => {
-        const id = Math.floor(Math.random()*17 + 3);
-        this.swapiService.getPlanet(id)
-        .then(this.onPlanetLoaded)
-        .catch(this.onError);
-    }
-
-    render() {
-        const { planet, loading, error } = this.state;
-
-        const hasData = !(loading || error);
-        const errorIndicator = error ? <ErrorIndicator/> : null;
-        const loadingText = loading ? <Spinner/> : null;
-        const content = hasData ? <PlanetView planet={planet}/> : null;
-        
-        return (
-            <div>
-                {errorIndicator}
-                {loadingText}
-                {content}
-            </div>
-        );
-    }
-}
 
 const PlanetView = ({planet}) => {
     const {id, name, population, rotation, diameter} = planet;
@@ -98,3 +32,62 @@ const PlanetView = ({planet}) => {
         </div>
     );
 }
+
+const RandomPlanet = (props) => {
+    const updateInterval = 3500;
+    const swapiService = new SwapiService();
+
+    const [state, setState] = useState({
+        planet: {},
+        loading: true,
+        error: false
+    })
+
+    useEffect(() => {
+        updatePlanet();
+   
+        const interval = setInterval(() => {
+            updatePlanet();
+        }, updateInterval);
+
+        return () => clearInterval(interval);
+    },[])
+
+    const onPlanetLoaded = (planet) => {
+        setState({
+            planet,
+            loading: false
+        });
+    };
+
+    const onError = (err) => {
+        setState({
+            loading: false,
+            error: true
+        });
+    };
+
+    const updatePlanet = () => {
+        const id = Math.floor(Math.random()*17 + 3);
+        swapiService.getPlanet(id)
+        .then(onPlanetLoaded)
+        .catch(onError);
+    }
+
+    const { planet, loading, error } = state;
+
+    const hasData = !(loading || error);
+    const errorIndicator = error ? <ErrorIndicator/> : null;
+    const loadingText = loading ? <Spinner/> : null;
+    const content = hasData ? <PlanetView planet={planet}/> : null;
+    
+    return (
+        <div>
+            {errorIndicator}
+            {loadingText}
+            {content}
+        </div>
+    );
+}
+
+export default RandomPlanet;

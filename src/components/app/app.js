@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "../header";
 import RandomPlanet from "../random-planet";
@@ -8,76 +8,70 @@ import ErrorBoundry from "../error-boundry";
 import { SwapiServiceProvider} from "../swapi-service-context";
 import DummySwapiService from "../../services/dummy-swapi-service";
 import { PeoplePage, PlanetsPage, StarshipsPage, SecretPage, LoginPage } from "../pages";
-
 import './app.scss';
 
-export default class App extends Component{
-    state = {
+const App = () => {
+    const [state, setState] = useState({
         displayRandomPlanet: false,
         hasError: false,
         swapiService: new SwapiService(),
         isLoggedIn: false
-   };
-
-    componentDidCatch() {
-        this.setState({
-            hasError: true
-        });
-    };
-
-    onServiceChange = () => {
+    })
+    const onServiceChange = () => {
         const Service = this.state.swapiService instanceof SwapiService ? DummySwapiService : SwapiService;
 
         console.log('switched to ' + Service.name);
 
-        this.setState({
+        setState({
             swapiService: new Service()
         });
     };
 
-    toggleRandomPlanet = () => {
-        const display = this.state.displayRandomPlanet;
-        this.setState({
-            displayRandomPlanet: !display
-        });
+    const onLogin = () => {
+        setState({
+            isLoggedIn : true
+        })
     };
 
-    onPersonSelected = (id) => {
-        this.setState({
-            selectedPerson: id
-        });
-    };
+    
+    if(state.hasError) {
+        return <ErrorIndicator />
+    }
 
-    onLogin = () => {
-        this.setState({isLoggedIn : true})
-    };
-
-    render() {
-        if(this.state.hasError) {
-            return <ErrorIndicator />
-        }
-
+    try {
         return (
             <div className="app">
                 <ErrorBoundry>
-                    <SwapiServiceProvider value={this.state.swapiService}>
+                    <SwapiServiceProvider value={state.swapiService}>
                         <Router>
-                            <Header onServiceChange={this.onServiceChange}/>
+                            <Header onServiceChange={onServiceChange}/>
                             <RandomPlanet />
                             <Routes>
                                 <Route path="/" element={<h1>Welcome to Star DB</h1>}/>
                                 <Route path="/people" element={<PeoplePage/>}/>
                                 <Route path="/planets" element={<PlanetsPage/>}/>
                                 <Route path="/starships" element={<StarshipsPage/>}/>
-                                <Route path="/secret" element={<SecretPage isLoggedIn={this.state.isLoggedIn}/>}/>
-                                <Route path="/login" element={<LoginPage isLoggedIn={this.state.isLoggedIn} onLogin={this.onLogin}/>}/>
+                                <Route path="/secret" element={<SecretPage isLoggedIn={state.isLoggedIn}/>}/>
+                                <Route path="/login" element={<LoginPage isLoggedIn={state.isLoggedIn} onLogin={onLogin}/>}/>
 
                                 <Route path="*" element={<h1>Page not Found</h1>}/>
                             </Routes>
                         </Router>
                     </SwapiServiceProvider>
                 </ErrorBoundry>
-            </div>            
+            </div>
         );
     }
+    catch(error) {
+        setState({
+            hasError: true
+        });        
+    }
+    finally {
+        if(state.hasError) {
+            return <ErrorIndicator />
+        }
+    }
 };
+
+export default App;
