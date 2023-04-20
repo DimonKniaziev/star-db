@@ -4,7 +4,7 @@ import SwapiService from '../../services/swapi-service.js';
 import ErrorIndicator from "../error-indicator/error-idicator.js";
 import Spinner from "../spinner/spinner.js";
 
-import './random-planet.css';
+import './random-planet.scss';
 
 export default class RandomPlanet extends Component {
     static defaultProps = {
@@ -76,7 +76,7 @@ const PlanetView = ({planet}) => {
     const {id, name, population, rotation, diameter} = planet;
 
     return (
-        <React.Fragment>
+        <div className="random-planet">
             <img src={`https://starwars-visualguide.com/assets/img/planets/${id}.jpg`} alt="Planet"/>
                 <ul>
                     <h4>
@@ -95,6 +95,6 @@ const PlanetView = ({planet}) => {
                         <span>{diameter}</span>
                     </li>
                 </ul>
-        </React.Fragment>
+        </div>
     );
 }

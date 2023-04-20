@@ -1,14 +1,18 @@
+import personImage from "./person-image.png";
+import planetImage from "./planet-image.png";
+import starshipImage from "./starship-image.png";
+
 export default class DummySwapiService {
     people = [
         {
-            id: 1,
+            id: 0,
             name: 'Arseniy [TEST DATA]',
             gender: 'male',
             birthYear: '2002',
             eyeColor: 'white'
         },
         {
-            id: 2,
+            id: 1,
             name: 'Dimon [TEST DATA]',
             gender: 'male',
             birthYear: '2002',
@@ -18,14 +22,14 @@ export default class DummySwapiService {
 
     planets = [
         {
-            id: 1,
+            id: 0,
             name: 'Mars [TEST DATA]',
             diameter: 'wery big diameter',
             population: '0',
             rotationPeriod: '10 days'
         },
         {
-            id: 2,
+            id: 1,
             name: 'Earth [TEST DATA]',
             diameter: 'wery big diameter',
             population: '100000000000000',
@@ -35,7 +39,7 @@ export default class DummySwapiService {
 
     starships = [
         {
-            id: 1,
+            id: 0,
             name: 'Rocket [TEST DATA]',
             model: '1488',
             manufacturer: 'n/a',
@@ -71,14 +75,14 @@ export default class DummySwapiService {
     };
 
     getPersonImage = () => {
-        return 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0Tf8f582fqNcGvRIPHCSbY0pCljRhMmMHVA&usqp=CAU';
+        return personImage;
     };
   
       getStarshipImage = () => {
-        return 'https://upload.wikimedia.org/wikipedia/commons/9/9a/Soyuz_TMA-9_launch.jpg';
+        return starshipImage;
     };
   
       getPlanetImage = () => {
-        return 'https://cdnn21.img.ria.ru/images/07e5/09/08/1749172991_0:44:3276:1887_1920x0_80_0_0_4d3305dfa6bc88925abc94043d9d52b7.jpg';
+        return planetImage;
     };
 }

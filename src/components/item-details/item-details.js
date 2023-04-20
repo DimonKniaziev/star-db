@@ -1,5 +1,7 @@
 import React, {Component} from "react";
 import ErrorButton from "../error-button/error-button";
+import Spinner from "../spinner";
+import "./item-details.scss";
 
 const Record = ({item, field, label}) => {
     return (
@@ -17,8 +19,16 @@ export default class ItemDetails extends Component {
     state = {
         item: null,
         image: null,
-        loading: false
+        loading: false,
+        error: false
     };
+
+    componentDidCatch() {
+        this.setState({
+            loading: false,
+            error: true
+        });
+    }
 
     componentDidMount() {
        this.updateItem(); 
@@ -57,27 +67,47 @@ export default class ItemDetails extends Component {
         const noData = !(item || loading)
         
         if(noData) {
-            return <span>Select an Item</span>
+            return (
+                <div className="item-details">
+                    <h4>Select an Item</h4>
+                </div>
+            );
         }
 
         if(this.state.loading) {
-            return <h4>LOADING...</h4>
+            return (
+                <div className="item-details">
+                    <Spinner/>
+                </div>
+            );
+        }
+
+        if(this.state.error) {
+            return (
+                <div className="item-details">
+                    <Spinner/>
+                </div>
+            )
         }
 
         const {name} = item;
 
         return(
-            <div>
-                <img src={image} alt="Character"/>
-                <h4>{name}</h4>
-                <ul>
-                    {
-                        React.Children.map(this.props.children, (child) => {
-                            return React.cloneElement(child, {item});
-                        })
-                    }
-                </ul>
-                <ErrorButton />
+            <div className="item-details">
+                <div className="image-container">
+                    <img src={image} alt=""/>
+                </div>
+                <div>
+                    <h4>{name}</h4>
+                    <ul>
+                        {
+                            React.Children.map(this.props.children, (child) => {
+                                return React.cloneElement(child, {item});
+                            })
+                        }
+                    </ul>
+                    <ErrorButton />
+                </div>
             </div>
         );
     }

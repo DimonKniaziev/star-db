@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from 'prop-types';
-import './item-list.css';
+import './item-list.scss';
 
 const ItemList = (props) => {    
     const { data, onItemSelected, children: renderLabel } = props;
@@ -17,7 +17,7 @@ const ItemList = (props) => {
     });
 
     return (
-        <ul>
+        <ul className="item-list">
             {items}
         </ul>
     );

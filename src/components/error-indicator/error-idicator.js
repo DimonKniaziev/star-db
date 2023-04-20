@@ -1,9 +1,9 @@
 import React from "react";
-import './error-indicator.css';
+import './error-indicator.scss';
 
 const ErrorIndicator = () => {
     return (
-        <div>
+        <div className="error-indicator">
             <h4>
                 BOOM!
             </h4>

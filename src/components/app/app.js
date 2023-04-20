@@ -9,7 +9,7 @@ import { SwapiServiceProvider} from "../swapi-service-context";
 import DummySwapiService from "../../services/dummy-swapi-service";
 import { PeoplePage, PlanetsPage, StarshipsPage, SecretPage, LoginPage } from "../pages";
 
-import './app.css';
+import './app.scss';
 
 export default class App extends Component{
     state = {
@@ -53,34 +53,31 @@ export default class App extends Component{
     };
 
     render() {
-        const randomPlanetComponent = this.state.displayRandomPlanet ? <RandomPlanet /> : null;
-
         if(this.state.hasError) {
             return <ErrorIndicator />
         }
 
         return (
-            <ErrorBoundry>
-                <SwapiServiceProvider value={this.state.swapiService}>
-                    <Router>
-                        <Header onServiceChange={this.onServiceChange}/>
-                        {randomPlanetComponent}
-                        <button onClick={this.toggleRandomPlanet}>
-                            Toggle Random Planet
-                        </button>
-                        <Routes>
-                            <Route path="/" element={<h2>Welcome to Star DB</h2>}/>
-                            <Route path="/people" element={<PeoplePage/>}/>
-                            <Route path="/planets" element={<PlanetsPage/>}/>
-                            <Route path="/starships" element={<StarshipsPage/>}/>
-                            <Route path="/secret" element={<SecretPage isLoggedIn={this.state.isLoggedIn}/>}/>
-                            <Route path="/login" element={<LoginPage isLoggedIn={this.state.isLoggedIn} onLogin={this.onLogin}/>}/>
+            <div className="app">
+                <ErrorBoundry>
+                    <SwapiServiceProvider value={this.state.swapiService}>
+                        <Router>
+                            <Header onServiceChange={this.onServiceChange}/>
+                            <RandomPlanet />
+                            <Routes>
+                                <Route path="/" element={<h1>Welcome to Star DB</h1>}/>
+                                <Route path="/people" element={<PeoplePage/>}/>
+                                <Route path="/planets" element={<PlanetsPage/>}/>
+                                <Route path="/starships" element={<StarshipsPage/>}/>
+                                <Route path="/secret" element={<SecretPage isLoggedIn={this.state.isLoggedIn}/>}/>
+                                <Route path="/login" element={<LoginPage isLoggedIn={this.state.isLoggedIn} onLogin={this.onLogin}/>}/>
 
-                            <Route path="*" element={<h2>Page not Found</h2>}/>
-                        </Routes>
-                    </Router>
-                </SwapiServiceProvider>
-            </ErrorBoundry>
+                                <Route path="*" element={<h1>Page not Found</h1>}/>
+                            </Routes>
+                        </Router>
+                    </SwapiServiceProvider>
+                </ErrorBoundry>
+            </div>            
         );
     }
 };

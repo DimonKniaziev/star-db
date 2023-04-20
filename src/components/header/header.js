@@ -1,11 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import './header.css';
+import './header.scss';
 
 const Header = ({onServiceChange}) => {
     return (
-        <div>
+        <div className="header">
             <h3>
                 <Link to="/">Star DB</Link>            
             </h3>
