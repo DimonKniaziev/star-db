@@ -18,7 +18,7 @@ const App = () => {
         isLoggedIn: false
     })
     const onServiceChange = () => {
-        const Service = this.state.swapiService instanceof SwapiService ? DummySwapiService : SwapiService;
+        const Service = state.swapiService instanceof SwapiService ? DummySwapiService : SwapiService;
 
         console.log('switched to ' + Service.name);
 
