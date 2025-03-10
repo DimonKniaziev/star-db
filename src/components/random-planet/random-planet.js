@@ -1,5 +1,4 @@
-import React, {Component, useState, useEffect} from "react";
-import PropTypes from 'prop-types';
+import React, {useState, useEffect} from "react";
 import SwapiService from '../../services/swapi-service.js';
 import ErrorIndicator from "../error-indicator/error-idicator.js";
 import Spinner from "../spinner/spinner.js";
